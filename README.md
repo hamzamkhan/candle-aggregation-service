@@ -7,7 +7,7 @@ A high-performance candle aggregation service built with Spring Boot and Postgre
 - **Real-time Candle Aggregation**: Processes bid/ask events and aggregates them into candles for multiple intervals (1s, 5s, 1m, 15m, 1h)
 - **Market Data Simulator**: Built-in simulator for testing with configurable symbols and tick rates
 - **REST API**: Query candle history with time range filtering
-- **Auto-configured PostgreSQL**: Automatic database startup via Testcontainers (optional, requires Docker)
+- **Auto-configured PostgreSQL**: Automatic database startup via Testcontainers, Docker is required
 
 ## Running the Application
 
@@ -55,20 +55,6 @@ Retrieve aggregated candles for a specific symbol and interval within a time ran
 curl "http://localhost:8080/history?symbol=BTC-USD&interval=1m&from=0&to=9999999999"
 ```
 
-**Response:**
-
-```json
-{
-  "status": "ok",
-  "t": [1609459200, 1609459260, ...],
-  "o": [30000.0, 30010.5, ...],
-  "h": [30050.0, 30060.0, ...],
-  "l": [29990.0, 30000.0, ...],
-  "c": [30010.5, 30040.0, ...],
-  "v": [100, 150, ...]
-}
-```
-
 **Response Fields:**
 
 - `status`: Response status ("ok")
@@ -78,14 +64,6 @@ curl "http://localhost:8080/history?symbol=BTC-USD&interval=1m&from=0&to=9999999
 - `l`: Array of low prices
 - `c`: Array of close prices
 - `v`: Array of volumes
-
-### Health Check
-
-Check application health:
-
-```bash
-curl http://localhost:8080/actuator/health
-```
 
 
 ### Candle Aggregation Logic
@@ -98,23 +76,6 @@ curl http://localhost:8080/actuator/health
 ### Database Schema
 
 Can be found in src/resources/db/migration. Migration can be applied via Flyway
-
-## Project Structure
-
-```
-src/main/java/com/app/candles/
-├── aggregation/          # Candle aggregation logic
-├── aop/                  # Exception handling
-├── controller/           # REST controllers
-├── database/             # Database setup and cleanup
-├── ingestion/            # Market data ingestion
-├── model/
-│   ├── entity/          # JPA entities
-│   ├── enums/           # Interval enum
-│   └── records/         # DTOs and value objects
-├── repository/           # JPA repositories
-└── service/              # Business logic services
-```
 
 ## Building
 
