@@ -22,16 +22,6 @@ public class CandleId implements Serializable {
 
     protected CandleId() {}
 
-//    public CandleId(String symbol, String interval, long bucketStartMs) {
-//        this.symbol = symbol;
-//        this.interval = interval;
-//        this.bucketStartMs = bucketStartMs;
-//    }
-//
-//    public String getSymbol() { return symbol; }
-//    public String getInterval() { return interval; }
-//    public long getBucketStartMs() { return bucketStartMs; }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {

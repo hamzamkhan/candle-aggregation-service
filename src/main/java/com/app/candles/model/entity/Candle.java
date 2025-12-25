@@ -34,7 +34,7 @@ public class Candle {
 
     @Column(name = "last_event_ts_ms", nullable = false)
     private long lastEventTsMs;
-    // For optimistic lock
+
     @Version
     private long version;
 
