@@ -32,8 +32,6 @@ This will start:
 - pgAdmin on port 5050
 - Application on port 8080
 
-
-
 ## API Documentation
 
 ### Get Candle History
