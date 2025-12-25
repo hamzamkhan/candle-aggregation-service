@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Candles DB (Docker Compose)",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "candles",
+      "Username": "admin",
+      "SSLMode": "prefer",
+      "PassFile": "/pgpass"
+    }
+  }
+}

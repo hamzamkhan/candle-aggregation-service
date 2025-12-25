@@ -1,0 +1,17 @@
+com/app/candles/aggregation/CandleAggregation.class
+com/app/candles/ingestion/MarketDataSimulator.class
+com/app/candles/model/records/Candle.class
+com/app/candles/database/CandlesCleanup.class
+com/app/candles/service/CandleService.class
+com/app/candles/model/entity/Candle.class
+com/app/candles/model/records/BidAskEvent.class
+com/app/candles/repository/CandleRepository.class
+com/app/candles/service/impl/CandleServiceImpl.class
+com/app/candles/aop/ApiExceptionHandler.class
+com/app/candles/model/entity/CandleId.class
+com/app/candles/CandleAggregationApplication.class
+com/app/candles/model/records/HistoryResponse.class
+com/app/candles/model/entity/CandleKey.class
+com/app/candles/database/PostgresAutoStarter.class
+com/app/candles/controller/HistoryController.class
+com/app/candles/model/enums/Interval.class

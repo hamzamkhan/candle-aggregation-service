@@ -1,0 +1,17 @@
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/CandleAggregationApplication.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/aggregation/CandleAggregation.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/aop/ApiExceptionHandler.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/controller/HistoryController.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/database/CandlesCleanup.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/database/PostgresAutoStarter.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/ingestion/MarketDataSimulator.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/model/entity/Candle.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/model/entity/CandleId.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/model/entity/CandleKey.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/model/enums/Interval.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/model/records/BidAskEvent.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/model/records/Candle.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/model/records/HistoryResponse.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/repository/CandleRepository.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/service/CandleService.java
+/Users/hamzamustafakhan/Downloads/Candle Aggregation Service Postgres JPA/src/main/java/com/app/candles/service/impl/CandleServiceImpl.java
