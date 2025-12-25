@@ -45,7 +45,7 @@ public final class PostgresAutoStarter {
                 .withUsername("admin")
                 .withPassword("admin")
                 .withNetwork(NETWORK)
-                .withNetworkAliases("candles-db");
+                .withNetworkAliases("postgres");
         postgres.start();
 
         overrides.put("spring.datasource.url", postgres.getJdbcUrl());
@@ -66,7 +66,7 @@ public final class PostgresAutoStarter {
                 "1": {
                   "Name": "Candles DB (Testcontainers)",
                   "Group": "Servers",
-                  "Host": "candles-db",
+                  "Host": "postgres",
                   "Port": 5432,
                   "MaintenanceDB": "candles",
                   "Username": "admin",
@@ -78,7 +78,7 @@ public final class PostgresAutoStarter {
             """);
 
             Path pgpass = Files.createTempFile("pgpass", ".txt");
-            Files.writeString(pgpass, "candles-db:5432:candles:admin:admin\n");
+            Files.writeString(pgpass, "postgres:5432:candles:admin:admin\n");
 
             pgAdmin = new FixedHostPortGenericContainer<>("dpage/pgadmin4:7.8")
                     .withFixedExposedPort(5050, 80)
