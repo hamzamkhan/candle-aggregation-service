@@ -1,19 +1,137 @@
-# Candle Aggregation Service (Spring Data JPA + PostgreSQL)
+# Candle Aggregation Service
 
-This project uses **proper Spring Data JPA repositories** (JpaRepository) for persistence.
-PostgreSQL runs automatically from the application via **Testcontainers** (Docker required).
+A high-performance candle aggregation service built with Spring Boot and PostgreSQL. This service aggregates real-time market data (bid/ask events) into OHLCV (Open, High, Low, Close, Volume) candles across multiple time intervals.
 
-## Why a native UPSERT inside a JPA repository?
-Candle updates are high-frequency and concurrent. A naive `find -> mutate -> save` loop causes race conditions.
-So the repository exposes a single atomic SQL `INSERT ... ON CONFLICT DO UPDATE` as a `@Modifying @Query`.
-It's still a JPA repository, but with the correct atomic update.
+## Features
 
-## Run
+- **Real-time Candle Aggregation**: Processes bid/ask events and aggregates them into candles for multiple intervals (1s, 5s, 1m, 15m, 1h)
+- **Market Data Simulator**: Built-in simulator for testing with configurable symbols and tick rates
+- **REST API**: Query candle history with time range filtering
+- **Auto-configured PostgreSQL**: Automatic database startup via Testcontainers (optional, requires Docker)
+
+## Running the Application
+
+### Option 1: Using Maven (with Testcontainers)
+
+This automatically starts PostgreSQL in a Docker container:
+
 ```bash
 mvn spring-boot:run
 ```
 
-## Call history
+### Option 2: Using Docker Compose
+
+Start PostgreSQL and the application together:
+
+```bash
+docker compose up --build
+```
+
+This will start:
+- PostgreSQL on port 5432
+- pgAdmin on port 5050
+- Application on port 8080
+
+
+
+## API Documentation
+
+### Get Candle History
+
+Retrieve aggregated candles for a specific symbol and interval within a time range.
+
+**Endpoint:** `GET /history`
+
+**Query Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `symbol` | String | Yes | Trading symbol (e.g., `BTC-USD`, `ETH-USD`) |
+| `interval` | String | Yes | Candle interval: `1s`, `5s`, `1m`, `15m`, or `1h` |
+| `from` | Long | Yes | Start timestamp (Unix timestamp in seconds) |
+| `to` | Long | Yes | End timestamp (Unix timestamp in seconds) |
+
+**Example Request:**
+
 ```bash
 curl "http://localhost:8080/history?symbol=BTC-USD&interval=1m&from=0&to=9999999999"
 ```
+
+**Response:**
+
+```json
+{
+  "status": "ok",
+  "t": [1609459200, 1609459260, ...],
+  "o": [30000.0, 30010.5, ...],
+  "h": [30050.0, 30060.0, ...],
+  "l": [29990.0, 30000.0, ...],
+  "c": [30010.5, 30040.0, ...],
+  "v": [100, 150, ...]
+}
+```
+
+**Response Fields:**
+
+- `status`: Response status ("ok")
+- `t`: Array of timestamps (bucket start times in seconds)
+- `o`: Array of open prices
+- `h`: Array of high prices
+- `l`: Array of low prices
+- `c`: Array of close prices
+- `v`: Array of volumes
+
+### Health Check
+
+Check application health:
+
+```bash
+curl http://localhost:8080/actuator/health
+```
+
+
+### Candle Aggregation Logic
+
+1. **Event Processing**: Market data simulator generates bid/ask events at configurable intervals
+2. **Price Calculation**: Mid price is calculated as `(bid + ask) / 2.0`
+3. **Multi-Interval Aggregation**: Each event updates candles for all supported intervals (1s, 5s, 1m, 15m, 1h)
+4. **Upsert Operation**: Atomic upsert ensures correct OHLCV values even under concurrent updates
+
+### Database Schema
+
+Can be found in src/resources/db/migration. Migration can be applied via Flyway
+
+## Project Structure
+
+```
+src/main/java/com/app/candles/
+├── aggregation/          # Candle aggregation logic
+├── aop/                  # Exception handling
+├── controller/           # REST controllers
+├── database/             # Database setup and cleanup
+├── ingestion/            # Market data ingestion
+├── model/
+│   ├── entity/          # JPA entities
+│   ├── enums/           # Interval enum
+│   └── records/         # DTOs and value objects
+├── repository/           # JPA repositories
+└── service/              # Business logic services
+```
+
+## Building
+
+```bash
+mvn clean package
+```
+
+## Testing
+
+```bash
+mvn test
+```
+
+## Bonus
+
+1. **PgAdmin**: Added pgadmin UI to access database. It is exposed on port 5050. Login credentials include `admin@admin.com` as username and `admin` as password. After logging in, in servers, when clicking on the server (Candles DB) you will be asked to enter password which is `admin`. After that, go into `candles` database -> Schemas -> public -> Tables -> candles
+
+2. **Cleanup**: A cleanup task that periodically deletes old candles from the database so the system doesn’t grow forever and slow down, named as `CandlesCleanup.java`
